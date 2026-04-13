@@ -193,22 +193,37 @@ export function DoctorDashboard({
         </Card>
 
         {/* Tools Section */}
-        <Card
-          className="border-0 shadow-lg cursor-pointer hover:shadow-xl transition-shadow bg-card"
-          onClick={() => setScreen("records")}
-        >
-          <CardContent className="p-6 flex items-center gap-4">
-            <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-              <FileText className="h-7 w-7 text-primary" />
-            </div>
-            <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Card
+            className="border-0 shadow-lg cursor-pointer hover:shadow-xl transition-shadow bg-card"
+            onClick={() => setScreen("records")}
+          >
+            <CardContent className="p-6 flex flex-col items-center text-center">
+              <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-3">
+                <FileText className="h-7 w-7 text-primary" />
+              </div>
               <h3 className="font-semibold text-card-foreground">Medical Records</h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs text-muted-foreground mt-1">
                 View & manage patient records
               </p>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+
+          <Card
+            className="border-0 shadow-lg cursor-pointer hover:shadow-xl transition-shadow bg-card"
+            onClick={() => setScreen("ai")}
+          >
+            <CardContent className="p-6 flex flex-col items-center text-center">
+              <div className="h-14 w-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-3">
+                <Brain className="h-7 w-7 text-accent" />
+              </div>
+              <h3 className="font-semibold text-card-foreground">AI Assistant</h3>
+              <p className="text-xs text-muted-foreground mt-1">
+                Get AI-powered insights
+              </p>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   )

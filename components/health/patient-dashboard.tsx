@@ -70,9 +70,9 @@ export function PatientDashboard({
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 -mt-8 relative z-10 pb-8">
+      <div className="container mx-auto px-4 -mt-8 relative z-10 pb-8 pt-6">
         {/* Quick Actions */}
-        <Card className="border-0 shadow-lg mb-6 bg-card">
+        <Card className="border-0 shadow-lg mb-6 bg-card mt-4">
           <CardContent className="p-4">
             <Button
               className="w-full h-14 text-lg font-medium gap-3"

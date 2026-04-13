@@ -89,7 +89,7 @@ export function PatientDashboard({
         </Card>
 
         {/* Patient Information */}
-        <Card className="border-0 shadow-lg mb-6 bg-card">
+        <Card className="border-0 shadow-lg mb-6 bg-card mt-8">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-lg text-card-foreground">
               <User className="h-5 w-5 text-primary" />

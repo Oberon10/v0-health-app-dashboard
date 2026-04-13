@@ -12,6 +12,7 @@ import { MedicalRecords } from "@/components/health/medical-records"
 import { PatientChat } from "@/components/health/patient-chat"
 import { AIAssistant } from "@/components/health/ai-assistant"
 import { Notification } from "@/components/health/notification"
+import { Footer } from "@/components/health/footer"
 
 export type Screen = 
   | "role" 
@@ -162,6 +163,8 @@ export default function SmartHealthApp() {
       )}
 
       {screen === "ai" && <AIAssistant setScreen={setScreen} />}
+
+      <Footer />
     </div>
   )
 }

@@ -11,6 +11,10 @@ import {
   Bell,
   LogOut,
   ChevronRight,
+  User,
+  Phone,
+  Mail,
+  Droplet,
 } from "lucide-react"
 import type { Screen, Appointment } from "@/app/page"
 
@@ -80,6 +84,64 @@ export function PatientDashboard({
             >
               <Calendar className="h-5 w-5" />
               Book New Appointment
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Patient Information */}
+        <Card className="border-0 shadow-lg mb-6 bg-card">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg text-card-foreground">
+              <User className="h-5 w-5 text-primary" />
+              Your Information
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Name */}
+              <div className="p-4 rounded-lg bg-secondary/50">
+                <p className="text-sm text-muted-foreground mb-1">Full Name</p>
+                <p className="font-medium text-card-foreground capitalize">
+                  {username || "Patient"}
+                </p>
+              </div>
+
+              {/* Email */}
+              <div className="p-4 rounded-lg bg-secondary/50">
+                <p className="text-sm text-muted-foreground flex items-center gap-1 mb-1">
+                  <Mail className="h-4 w-4" />
+                  Email
+                </p>
+                <p className="font-medium text-card-foreground">
+                  {username?.toLowerCase()}@health.com
+                </p>
+              </div>
+
+              {/* Phone */}
+              <div className="p-4 rounded-lg bg-secondary/50">
+                <p className="text-sm text-muted-foreground flex items-center gap-1 mb-1">
+                  <Phone className="h-4 w-4" />
+                  Phone
+                </p>
+                <p className="font-medium text-card-foreground">+1 (555) 000-0000</p>
+              </div>
+
+              {/* Blood Type */}
+              <div className="p-4 rounded-lg bg-secondary/50">
+                <p className="text-sm text-muted-foreground flex items-center gap-1 mb-1">
+                  <Droplet className="h-4 w-4" />
+                  Blood Type
+                </p>
+                <p className="font-medium text-card-foreground">O+</p>
+              </div>
+            </div>
+
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => setScreen("records")}
+            >
+              View Medical Records
             </Button>
           </CardContent>
         </Card>

@@ -15,6 +15,7 @@ import {
   Phone,
   Mail,
   Droplet,
+  Brain,
 } from "lucide-react"
 import type { Screen, Appointment } from "@/app/page"
 
@@ -199,6 +200,41 @@ export function PatientDashboard({
             )}
           </CardContent>
         </Card>
+
+        {/* Tools Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          {/* AI Assistant */}
+          <Card
+            className="border-0 shadow-lg cursor-pointer hover:shadow-xl transition-shadow bg-card"
+            onClick={() => setScreen("ai")}
+          >
+            <CardContent className="p-6 flex flex-col items-center text-center">
+              <div className="h-14 w-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-3">
+                <Brain className="h-7 w-7 text-accent" />
+              </div>
+              <h3 className="font-semibold text-card-foreground">AI Health Assistant</h3>
+              <p className="text-xs text-muted-foreground mt-1">
+                Get AI-powered health insights
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Health Chat */}
+          <Card
+            className="border-0 shadow-lg cursor-pointer hover:shadow-xl transition-shadow bg-card"
+            onClick={() => setScreen("chat")}
+          >
+            <CardContent className="p-6 flex flex-col items-center text-center">
+              <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-3">
+                <FileText className="h-7 w-7 text-primary" />
+              </div>
+              <h3 className="font-semibold text-card-foreground">Chat with Doctor</h3>
+              <p className="text-xs text-muted-foreground mt-1">
+                Message your healthcare provider
+              </p>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Health Tips */}
         <Card className="border-0 shadow-lg bg-card">

@@ -138,9 +138,9 @@ export function DoctorDashboard({
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 -mt-8 relative z-10 pb-8">
+      <div className="container mx-auto px-4 -mt-8 relative z-10 pb-8 pt-8">
         {/* Stats Grid */}
-        <Card className="border-0 shadow-lg mb-6 bg-card">
+        <Card className="border-0 shadow-lg mb-6 bg-card mt-6">
           <CardContent className="p-4">
             <div className="grid grid-cols-4 gap-2">
               {stats.map((stat) => (

@@ -20,18 +20,18 @@ export function RoleSelection({ setRole, setScreen }: RoleSelectionProps) {
           src="/images/hero-doctor.jpg"
           alt="Healthcare professionals providing quality care"
           fill
-          className="object-cover"
+          className="object-cover object-top brightness-105 contrast-105"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/60 via-primary/40 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-slate-900/50 to-background" />
         <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
-          <div className="flex items-center gap-2 mb-4">
-            <Heart className="h-10 w-10 text-primary-foreground" fill="currentColor" />
-            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground tracking-tight">
+          <div className="flex items-center gap-3 mb-4">
+            <Heart className="h-10 w-10 text-white drop-shadow-lg" fill="currentColor" />
+            <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight drop-shadow-lg">
               SmartHealth
             </h1>
           </div>
-          <p className="text-lg md:text-xl text-primary-foreground/90 max-w-md">
+          <p className="text-lg md:text-xl text-white/95 max-w-md drop-shadow-md">
             Your trusted digital healthcare companion for a healthier tomorrow
           </p>
         </div>

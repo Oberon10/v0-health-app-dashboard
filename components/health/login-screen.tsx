@@ -30,20 +30,20 @@ export function LoginScreen({
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Left Side - Image */}
-      <div className="relative h-48 md:h-auto md:w-1/2 bg-primary">
+      <div className="relative h-48 md:h-auto md:w-1/2">
         <Image
           src={isDoctor ? "/images/hero-doctor.jpg" : "/images/patient-care.jpg"}
           alt={isDoctor ? "Doctor portal" : "Patient portal"}
           fill
-          className="object-cover opacity-80"
+          className="object-cover brightness-105 contrast-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/75 via-slate-900/50 to-slate-900/30" />
         <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-          <Heart className="h-12 w-12 text-primary-foreground mb-4" fill="currentColor" />
-          <h1 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-2">
+          <Heart className="h-12 w-12 text-white mb-4 drop-shadow-lg" fill="currentColor" />
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">
             SmartHealth
           </h1>
-          <p className="text-primary-foreground/90 text-sm md:text-base max-w-xs">
+          <p className="text-white/90 text-sm md:text-base max-w-xs drop-shadow-md">
             {isDoctor
               ? "Empower your practice with intelligent healthcare management"
               : "Your health journey starts here"}

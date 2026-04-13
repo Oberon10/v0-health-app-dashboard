@@ -143,14 +143,14 @@ export function AIAssistant({ setScreen }: AIAssistantProps) {
           src="/images/ai-health.jpg"
           alt="AI Health Assistant"
           fill
-          className="object-cover"
+          className="object-cover brightness-110 contrast-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/70 to-primary/90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/70 to-slate-900/90" />
         <div className="absolute inset-0 p-6 flex flex-col justify-between">
           <Button
             variant="ghost"
             size="sm"
-            className="w-fit text-primary-foreground hover:bg-primary-foreground/20"
+            className="w-fit text-white hover:bg-white/20"
             onClick={() => setScreen("dashboard")}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -158,10 +158,10 @@ export function AIAssistant({ setScreen }: AIAssistantProps) {
           </Button>
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="h-6 w-6 text-primary-foreground" />
-              <span className="text-primary-foreground/80 text-sm">AI-Powered</span>
+              <Sparkles className="h-6 w-6 text-white" />
+              <span className="text-white/80 text-sm">AI-Powered</span>
             </div>
-            <h1 className="text-2xl font-bold text-primary-foreground flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-white flex items-center gap-2 drop-shadow-lg">
               <Brain className="h-7 w-7" />
               Diagnostic Assistant
             </h1>

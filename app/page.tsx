@@ -34,6 +34,7 @@ export interface Appointment {
   id: number
   patientName: string
   ward: string
+  Have: string
   bloodGroup: string
   age: string
   complaint: string

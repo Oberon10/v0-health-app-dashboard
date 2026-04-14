@@ -31,14 +31,13 @@ export type Screen =
 export type Role = "doctor" | "user" | ""
 
 export interface Appointment {
-  id: number 
-  who am i{=NULL =}
-patientName: string
-ward: string
-bloodGroup: string
-age: string
-complaint: string
-status: "pending" | "active" | "seen" | "rescheduled"
+  id: number
+  patientName: string
+  ward: string
+  bloodGroup: string
+  age: string
+  complaint: string
+  status: "pending" | "active" | "seen" | "rescheduled"
 }
 
 export interface Patient {

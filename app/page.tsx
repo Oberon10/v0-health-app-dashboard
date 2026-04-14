@@ -14,30 +14,31 @@ import { AIAssistant } from "@/components/health/ai-assistant"
 import { Notification } from "@/components/health/notification"
 import { Footer } from "@/components/health/footer"
 
-export type Screen = 
-  | "role" 
-  | "login" 
-  | "forgot" 
-  | "dashboard" 
-  | "book" 
-  | "pending" 
-  | "active" 
-  | "seen" 
-  | "rescheduled" 
-  | "records" 
-  | "chat" 
+export type Screen =
+  | "role"
+  | "login"
+  | "forgot"
+  | "dashboard"
+  | "book"
+  | "pending"
+  | "active"
+  | "seen"
+  | "rescheduled"
+  | "records"
+  | "chat"
   | "ai"
 
 export type Role = "doctor" | "user" | ""
 
 export interface Appointment {
-  id: number
-  patientName: string
-  ward: string
-  bloodGroup: string
-  age: string
-  complaint: string
-  status: "pending" | "active" | "seen" | "rescheduled"
+  id: number 
+  who am i{=NULL =}
+patientName: string
+ward: string
+bloodGroup: string
+age: string
+complaint: string
+status: "pending" | "active" | "seen" | "rescheduled"
 }
 
 export interface Patient {
@@ -134,14 +135,14 @@ export default function SmartHealthApp() {
         screen === "active" ||
         screen === "seen" ||
         screen === "rescheduled") && (
-        <AppointmentList
-          screen={screen}
-          appointments={appointments}
-          setAppointments={setAppointments}
-          setScreen={setScreen}
-          showNotification={showNotification}
-        />
-      )}
+          <AppointmentList
+            screen={screen}
+            appointments={appointments}
+            setAppointments={setAppointments}
+            setScreen={setScreen}
+            showNotification={showNotification}
+          />
+        )}
 
       {screen === "records" && (
         <MedicalRecords

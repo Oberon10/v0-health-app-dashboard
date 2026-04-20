@@ -7,13 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+
 import {
   ArrowLeft,
   Brain,
@@ -37,7 +31,16 @@ import {
   Stethoscope,
   Shield,
   Clock,
+  Search,
+  Check,
+  ChevronDown,
+  X,
 } from "lucide-react"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import type { Screen } from "@/app/page"
 
 interface PatientAIAssistantProps {
@@ -1051,7 +1054,7 @@ const translations: Record<string, Record<string, string>> = {
     recommendations: "सिफारिशें",
     warningSignsTitle: "देखने के लिए चेतावनी संकेत",
     whenToSeekHelp: "चिकित्सा सहायता कब लें",
-    disclaimer: "अस्वीकरण: यह AI सहायक केवल सामान्य स्वास्थ्य जानकारी प्रदान करता है और पेशेवर चिकित्सा सलाह, निदान या उपचार का विकल्प नहीं है। हमेशा योग्य स्वास्थ्य सेवा प्रदाता से परामर्श लें।",
+    disclaimer: "अस्वीकरण: यह AI सहायक केवल सामान्य स्वास्थ्य जानकारी प्रदान करता है और पेशेवर चिकित्सा सलाह, निदान या उपचार का विकल्प नहीं है। हमेशा योग्य स्��ास्थ्य सेवा प्रदाता से परामर्श लें।",
     offline: "ऑफलाइन मोड",
     online: "ऑनलाइन",
     emergency: "आपातकाल",
@@ -1070,24 +1073,715 @@ const translations: Record<string, Record<string, string>> = {
     animalBite: "जानवर का काटना",
     difficulty: "सांस लेने में कठिनाई",
     back: "वापस"
+  },
+  // German
+  de: {
+    title: "Gesundheitsassistent",
+    subtitle: "Beschreiben Sie Ihre Symptome für personalisierte Beratung",
+    placeholder: "Beschreiben Sie, wie Sie sich fühlen...",
+    send: "Senden",
+    analyzing: "Analysiere...",
+    commonSymptoms: "Häufige Symptome",
+    condition: "Mögliche Erkrankung",
+    confidence: "Sicherheit",
+    urgency: "Dringlichkeitsstufe",
+    firstAid: "Sofortige Erste Hilfe",
+    recommendations: "Empfehlungen",
+    warningSignsTitle: "Warnzeichen",
+    whenToSeekHelp: "Wann ärztliche Hilfe suchen",
+    disclaimer: "Hinweis: Dieser KI-Assistent bietet nur allgemeine Gesundheitsinformationen und ersetzt keine professionelle medizinische Beratung, Diagnose oder Behandlung.",
+    offline: "Offline-Modus",
+    online: "Online",
+    emergency: "Notfall",
+    urgent: "Dringend",
+    moderate: "Mäßig",
+    low: "Niedrige Priorität",
+    high: "Hoch",
+    medium: "Mittel",
+    greeting: "Hallo! Ich bin Ihr KI-Gesundheitsassistent. Beschreiben Sie Ihre Symptome und ich helfe Ihnen mit Erste-Hilfe-Anleitungen.",
+    noMatch: "Ich verstehe, dass Sie sich nicht wohl fühlen. Bitte beschreiben Sie Ihre Symptome genauer.",
+    fever: "Fieber",
+    headache: "Kopfschmerzen",
+    cough: "Husten",
+    stomachPain: "Bauchschmerzen",
+    snakeBite: "Schlangenbiss",
+    animalBite: "Tierbiss",
+    difficulty: "Atemnot",
+    back: "Zurück"
+  },
+  // Italian
+  it: {
+    title: "Assistente Sanitario",
+    subtitle: "Descrivi i tuoi sintomi per una guida personalizzata",
+    placeholder: "Descrivi come ti senti...",
+    send: "Invia",
+    analyzing: "Analizzando...",
+    commonSymptoms: "Sintomi Comuni",
+    condition: "Possibile Condizione",
+    confidence: "Affidabilità",
+    urgency: "Livello di Urgenza",
+    firstAid: "Primo Soccorso Immediato",
+    recommendations: "Raccomandazioni",
+    warningSignsTitle: "Segnali di Allarme",
+    whenToSeekHelp: "Quando Cercare Aiuto Medico",
+    disclaimer: "Avviso: Questo assistente AI fornisce solo informazioni sanitarie generali e non sostituisce consulenza medica professionale.",
+    offline: "Modalità Offline",
+    online: "Online",
+    emergency: "Emergenza",
+    urgent: "Urgente",
+    moderate: "Moderato",
+    low: "Bassa Priorità",
+    high: "Alta",
+    medium: "Media",
+    greeting: "Ciao! Sono il tuo Assistente Sanitario AI. Descrivi i tuoi sintomi e ti aiuterò con le istruzioni di primo soccorso.",
+    noMatch: "Capisco che non ti senti bene. Per favore descrivi i tuoi sintomi in modo più dettagliato.",
+    fever: "Febbre",
+    headache: "Mal di Testa",
+    cough: "Tosse",
+    stomachPain: "Mal di Stomaco",
+    snakeBite: "Morso di Serpente",
+    animalBite: "Morso di Animale",
+    difficulty: "Difficoltà Respiratorie",
+    back: "Indietro"
+  },
+  // Russian
+  ru: {
+    title: "Медицинский Помощник",
+    subtitle: "Опишите ваши симптомы для получения рекомендаций",
+    placeholder: "Опишите, как вы себя чувствуете...",
+    send: "Отправить",
+    analyzing: "Анализирую...",
+    commonSymptoms: "Частые Симптомы",
+    condition: "Возможное Состояние",
+    confidence: "Уверенность",
+    urgency: "Уровень Срочности",
+    firstAid: "Немедленная Первая Помощь",
+    recommendations: "Рекомендации",
+    warningSignsTitle: "Тревожные Признаки",
+    whenToSeekHelp: "Когда Обращаться к Врачу",
+    disclaimer: "Внимание: Этот ИИ-помощник предоставляет только общую медицинскую информацию и не заменяет профессиональную медицинскую консультацию.",
+    offline: "Оффлайн Режим",
+    online: "Онлайн",
+    emergency: "Экстренно",
+    urgent: "Срочно",
+    moderate: "Умеренно",
+    low: "Низкий Приоритет",
+    high: "Высокая",
+    medium: "Средняя",
+    greeting: "Здравствуйте! Я ваш ИИ-помощник по здоровью. Опишите симптомы, и я помогу с рекомендациями по первой помощи.",
+    noMatch: "Понимаю, что вы плохо себя чувствуете. Пожалуйста, опишите симптомы подробнее.",
+    fever: "Температура",
+    headache: "Головная Боль",
+    cough: "Кашель",
+    stomachPain: "Боль в Животе",
+    snakeBite: "Укус Змеи",
+    animalBite: "Укус Животного",
+    difficulty: "Затруднённое Дыхание",
+    back: "Назад"
+  },
+  // Japanese
+  ja: {
+    title: "健康アシスタント",
+    subtitle: "症状を入力してアドバイスを受けましょう",
+    placeholder: "どのような症状ですか...",
+    send: "送信",
+    analyzing: "分析中...",
+    commonSymptoms: "よくある症状",
+    condition: "可能性のある状態",
+    confidence: "信頼度",
+    urgency: "緊急度",
+    firstAid: "応急処置",
+    recommendations: "推奨事項",
+    warningSignsTitle: "警告サイン",
+    whenToSeekHelp: "医療機関を受診する目安",
+    disclaimer: "注意：このAIアシスタントは一般的な健康情報のみを提供し、専門的な医療アドバイスの代わりにはなりません。",
+    offline: "オフラインモード",
+    online: "オンライン",
+    emergency: "緊急",
+    urgent: "急ぎ",
+    moderate: "中程度",
+    low: "低優先度",
+    high: "高",
+    medium: "中",
+    greeting: "こんにちは！AIヘルスアシスタントです。症状をお聞かせください。応急処置のアドバイスをいたします。",
+    noMatch: "体調が悪いのですね。症状をもう少し詳しく教えていただけますか？",
+    fever: "発熱",
+    headache: "頭痛",
+    cough: "咳",
+    stomachPain: "腹痛",
+    snakeBite: "蛇咬傷",
+    animalBite: "動物咬傷",
+    difficulty: "呼吸困難",
+    back: "戻る"
+  },
+  // Korean
+  ko: {
+    title: "건강 도우미",
+    subtitle: "증상을 설명하여 맞춤 안내를 받으세요",
+    placeholder: "어떻게 느끼시는지 설명해주세요...",
+    send: "보내기",
+    analyzing: "분석 중...",
+    commonSymptoms: "흔한 증상",
+    condition: "가능한 상태",
+    confidence: "신뢰도",
+    urgency: "긴급도",
+    firstAid: "즉각적인 응급처치",
+    recommendations: "권장사항",
+    warningSignsTitle: "경고 징후",
+    whenToSeekHelp: "의료 도움이 필요한 경우",
+    disclaimer: "주의: 이 AI 도우미는 일반적인 건강 정보만 제공하며 전문적인 의료 조언을 대체하지 않습니다.",
+    offline: "오프라인 모드",
+    online: "온라인",
+    emergency: "응급",
+    urgent: "긴급",
+    moderate: "보통",
+    low: "낮은 우선순위",
+    high: "높음",
+    medium: "중간",
+    greeting: "안녕하세요! AI 건강 도우미입니다. 증상을 말씀해주시면 응급처치 안내를 도와드리겠습니다.",
+    noMatch: "몸이 안 좋으시군요. 증상을 좀 더 자세히 설명해주시겠어요?",
+    fever: "발열",
+    headache: "두통",
+    cough: "기침",
+    stomachPain: "복통",
+    snakeBite: "뱀에 물림",
+    animalBite: "동물에 물림",
+    difficulty: "호흡 곤란",
+    back: "뒤로"
+  },
+  // Vietnamese
+  vi: {
+    title: "Trợ Lý Sức Khỏe",
+    subtitle: "Mô tả triệu chứng để nhận hướng dẫn",
+    placeholder: "Mô tả cảm giác của bạn...",
+    send: "Gửi",
+    analyzing: "Đang phân tích...",
+    commonSymptoms: "Triệu Chứng Thường Gặp",
+    condition: "Tình Trạng Có Thể",
+    confidence: "Độ Tin Cậy",
+    urgency: "Mức Độ Khẩn Cấp",
+    firstAid: "Sơ Cứu Ngay",
+    recommendations: "Khuyến Nghị",
+    warningSignsTitle: "Dấu Hiệu Cảnh Báo",
+    whenToSeekHelp: "Khi Nào Cần Đi Khám",
+    disclaimer: "Lưu ý: Trợ lý AI này chỉ cung cấp thông tin sức khỏe chung và không thay thế tư vấn y tế chuyên nghiệp.",
+    offline: "Chế Độ Ngoại Tuyến",
+    online: "Trực Tuyến",
+    emergency: "Cấp Cứu",
+    urgent: "Khẩn Cấp",
+    moderate: "Trung Bình",
+    low: "Ưu Tiên Thấp",
+    high: "Cao",
+    medium: "Trung Bình",
+    greeting: "Xin chào! Tôi là Trợ lý Sức khỏe AI. Hãy mô tả triệu chứng và tôi sẽ hướng dẫn sơ cứu cho bạn.",
+    noMatch: "Tôi hiểu bạn không khỏe. Vui lòng mô tả triệu chứng chi tiết hơn.",
+    fever: "Sốt",
+    headache: "Đau Đầu",
+    cough: "Ho",
+    stomachPain: "Đau Bụng",
+    snakeBite: "Rắn Cắn",
+    animalBite: "Động Vật Cắn",
+    difficulty: "Khó Thở",
+    back: "Quay Lại"
+  },
+  // Thai
+  th: {
+    title: "ผู้ช่วยด้านสุขภาพ",
+    subtitle: "อธิบายอาการของคุณเพื่อรับคำแนะนำ",
+    placeholder: "อธิบายความรู้สึกของคุณ...",
+    send: "ส่ง",
+    analyzing: "กำลังวิเคราะห์...",
+    commonSymptoms: "อาการที่พบบ่อย",
+    condition: "ภาวะที่เป็นไปได้",
+    confidence: "ความมั่นใจ",
+    urgency: "ระดับความเร่งด่วน",
+    firstAid: "การปฐมพยาบาลเบื้องต้น",
+    recommendations: "คำแนะนำ",
+    warningSignsTitle: "สัญญาณเตือน",
+    whenToSeekHelp: "เมื่อไหร่ควรพบแพทย์",
+    disclaimer: "หมายเหตุ: ผู้ช่วย AI นี้ให้ข้อมูลสุขภาพทั่วไปเท่านั้น ไม่ใช่การแทนที่คำแนะนำทางการแพทย์",
+    offline: "โหมดออฟไลน์",
+    online: "ออนไลน์",
+    emergency: "ฉุกเฉิน",
+    urgent: "เร่งด่วน",
+    moderate: "ปานกลาง",
+    low: "ความสำคัญต่ำ",
+    high: "สูง",
+    medium: "กลาง",
+    greeting: "สวัสดี! ฉันคือผู้ช่วยสุขภาพ AI อธิบายอาการของคุณแล้วฉันจะช่วยแนะนำการปฐมพยาบาล",
+    noMatch: "ฉันเข้าใจว่าคุณไม่สบาย กรุณาอธิบายอาการให้ละเอียดขึ้น",
+    fever: "ไข้",
+    headache: "ปวดหัว",
+    cough: "ไอ",
+    stomachPain: "ปวดท้อง",
+    snakeBite: "งูกัด",
+    animalBite: "สัตว์กัด",
+    difficulty: "หายใจลำบาก",
+    back: "กลับ"
+  },
+  // Indonesian
+  id: {
+    title: "Asisten Kesehatan",
+    subtitle: "Jelaskan gejala Anda untuk panduan personal",
+    placeholder: "Jelaskan perasaan Anda...",
+    send: "Kirim",
+    analyzing: "Menganalisis...",
+    commonSymptoms: "Gejala Umum",
+    condition: "Kemungkinan Kondisi",
+    confidence: "Keyakinan",
+    urgency: "Tingkat Urgensi",
+    firstAid: "Pertolongan Pertama",
+    recommendations: "Rekomendasi",
+    warningSignsTitle: "Tanda Peringatan",
+    whenToSeekHelp: "Kapan Harus ke Dokter",
+    disclaimer: "Perhatian: Asisten AI ini hanya memberikan informasi kesehatan umum dan bukan pengganti saran medis profesional.",
+    offline: "Mode Offline",
+    online: "Online",
+    emergency: "Darurat",
+    urgent: "Mendesak",
+    moderate: "Sedang",
+    low: "Prioritas Rendah",
+    high: "Tinggi",
+    medium: "Sedang",
+    greeting: "Halo! Saya Asisten Kesehatan AI. Jelaskan gejala Anda dan saya akan membantu dengan panduan pertolongan pertama.",
+    noMatch: "Saya mengerti Anda tidak enak badan. Mohon jelaskan gejala Anda lebih detail.",
+    fever: "Demam",
+    headache: "Sakit Kepala",
+    cough: "Batuk",
+    stomachPain: "Sakit Perut",
+    snakeBite: "Gigitan Ular",
+    animalBite: "Gigitan Hewan",
+    difficulty: "Sesak Napas",
+    back: "Kembali"
+  },
+  // Turkish
+  tr: {
+    title: "Sağlık Asistanı",
+    subtitle: "Kişisel rehberlik için belirtilerinizi açıklayın",
+    placeholder: "Nasıl hissettiğinizi açıklayın...",
+    send: "Gönder",
+    analyzing: "Analiz ediliyor...",
+    commonSymptoms: "Yaygın Belirtiler",
+    condition: "Olası Durum",
+    confidence: "Güvenilirlik",
+    urgency: "Aciliyet Düzeyi",
+    firstAid: "Acil İlk Yardım",
+    recommendations: "Öneriler",
+    warningSignsTitle: "Uyarı İşaretleri",
+    whenToSeekHelp: "Ne Zaman Doktora Gitmeli",
+    disclaimer: "Uyarı: Bu AI asistanı yalnızca genel sağlık bilgileri sunar ve profesyonel tıbbi tavsiyenin yerini almaz.",
+    offline: "Çevrimdışı Mod",
+    online: "Çevrimiçi",
+    emergency: "Acil",
+    urgent: "Acil",
+    moderate: "Orta",
+    low: "Düşük Öncelik",
+    high: "Yüksek",
+    medium: "Orta",
+    greeting: "Merhaba! Ben AI Sağlık Asistanınızım. Belirtilerinizi anlatın, ilk yardım rehberliği konusunda size yardımcı olayım.",
+    noMatch: "İyi hissetmediğinizi anlıyorum. Lütfen belirtilerinizi daha ayrıntılı açıklayın.",
+    fever: "Ateş",
+    headache: "Baş Ağrısı",
+    cough: "Öksürük",
+    stomachPain: "Karın Ağrısı",
+    snakeBite: "Yılan Isırığı",
+    animalBite: "Hayvan Isırığı",
+    difficulty: "Nefes Darlığı",
+    back: "Geri"
+  },
+  // Amharic (Ethiopian)
+  am: {
+    title: "የጤና ረዳት",
+    subtitle: "ምልክቶችዎን ይግለጹ",
+    placeholder: "እንዴት እንደሚሰማዎት ይግለጹ...",
+    send: "ላክ",
+    analyzing: "በመተንተን ላይ...",
+    commonSymptoms: "የተለመዱ ምልክቶች",
+    condition: "ሊሆን የሚችል ሁኔታ",
+    confidence: "እምነት",
+    urgency: "የአስቸኳይ ደረጃ",
+    firstAid: "የመጀመሪያ እርዳታ",
+    recommendations: "ምክሮች",
+    warningSignsTitle: "የማስጠንቀቂያ ምልክቶች",
+    whenToSeekHelp: "መቼ ሐኪም ማማከር",
+    disclaimer: "ማስጠንቀቂያ: ይህ AI ረዳት አጠቃላይ የጤና መረጃ ብቻ ይሰጣል።",
+    offline: "ከመስመር ውጭ",
+    online: "በመስመር ላይ",
+    emergency: "አደጋ",
+    urgent: "አስቸኳይ",
+    moderate: "መካከለኛ",
+    low: "ዝቅተኛ ቅድሚያ",
+    high: "ከፍተኛ",
+    medium: "መካከለኛ",
+    greeting: "ሰላም! የ AI ጤና ረዳትዎ ነኝ። ምልክቶችዎን ይንገሩኝ።",
+    noMatch: "ጥሩ እንዳልሆኑ ገባኝ። እባክዎ ምልክቶችዎን በዝርዝር ያብራሩ።",
+    fever: "ትኩሳት",
+    headache: "ራስ ምታት",
+    cough: "ሳል",
+    stomachPain: "የሆድ ህመም",
+    snakeBite: "የእባብ ንክሻ",
+    animalBite: "የእንስሳ ንክሻ",
+    difficulty: "የመተንፈስ ችግር",
+    back: "ተመለስ"
+  },
+  // Bengali
+  bn: {
+    title: "স্বাস্থ্য সহকারী",
+    subtitle: "ব্যক্তিগত নির্দেশনার জন্য আপনার লক্ষণগুলি বর্ণনা করুন",
+    placeholder: "আপনি কেমন অনুভব করছেন বর্ণনা করুন...",
+    send: "পাঠান",
+    analyzing: "বিশ্লেষণ করা হচ্ছে...",
+    commonSymptoms: "সাধারণ লক্ষণ",
+    condition: "সম্ভাব্য অবস্থা",
+    confidence: "আস্থা",
+    urgency: "জরুরি স্তর",
+    firstAid: "তাৎক্ষণিক প্রাথমিক চিকিৎসা",
+    recommendations: "সুপারিশ",
+    warningSignsTitle: "সতর্কতা চিহ্ন",
+    whenToSeekHelp: "কখন ডাক্তার দেখাবেন",
+    disclaimer: "সতর্কতা: এই AI সহকারী শুধুমাত্র সাধারণ স্বাস্থ্য তথ্য প্রদান করে।",
+    offline: "অফলাইন মোড",
+    online: "অনলাইন",
+    emergency: "জরুরি",
+    urgent: "জরুরি",
+    moderate: "মাঝারি",
+    low: "কম অগ্রাধিকার",
+    high: "উচ্চ",
+    medium: "মাঝারি",
+    greeting: "হ্যালো! আমি আপনার AI স্বাস্থ্য সহকারী। আপনার লক্ষণগুলি বর্ণনা করুন।",
+    noMatch: "বুঝতে পারছি আপনি ভালো নেই। অনুগ্রহ করে আপনার লক্ষণগুলি বিস্তারিত বর্ণনা করুন।",
+    fever: "জ্বর",
+    headache: "মাথাব্যথা",
+    cough: "কাশি",
+    stomachPain: "পেটব্যথা",
+    snakeBite: "সাপের কামড়",
+    animalBite: "পশুর কামড়",
+    difficulty: "শ্বাসকষ্ট",
+    back: "পেছনে"
+  },
+  // Filipino/Tagalog
+  tl: {
+    title: "Katulong sa Kalusugan",
+    subtitle: "Ilarawan ang iyong mga sintomas para sa gabay",
+    placeholder: "Ilarawan kung ano ang nararamdaman mo...",
+    send: "Ipadala",
+    analyzing: "Sinusuri...",
+    commonSymptoms: "Karaniwang Sintomas",
+    condition: "Posibleng Kondisyon",
+    confidence: "Tiwala",
+    urgency: "Antas ng Pagkadali",
+    firstAid: "Agarang First Aid",
+    recommendations: "Mga Rekomendasyon",
+    warningSignsTitle: "Mga Babalang Senyales",
+    whenToSeekHelp: "Kailan Dapat Magpatingin",
+    disclaimer: "Babala: Ang AI assistant na ito ay nagbibigay lamang ng pangkalahatang impormasyon sa kalusugan.",
+    offline: "Offline Mode",
+    online: "Online",
+    emergency: "Emergency",
+    urgent: "Madali",
+    moderate: "Katamtaman",
+    low: "Mababang Priyoridad",
+    high: "Mataas",
+    medium: "Katamtaman",
+    greeting: "Kamusta! Ako ang iyong AI Health Assistant. Ilarawan ang iyong mga sintomas.",
+    noMatch: "Naiintindihan kong hindi ka maganda ang pakiramdam. Pakipaliwanag pa ang iyong mga sintomas.",
+    fever: "Lagnat",
+    headache: "Sakit ng Ulo",
+    cough: "Ubo",
+    stomachPain: "Sakit ng Tiyan",
+    snakeBite: "Kagat ng Ahas",
+    animalBite: "Kagat ng Hayop",
+    difficulty: "Hirap sa Paghinga",
+    back: "Bumalik"
+  },
+  // Yoruba (Nigeria)
+  yo: {
+    title: "Oluranlọwọ Ilera",
+    subtitle: "Ṣe apejuwe awọn ami aisan rẹ",
+    placeholder: "Ṣe apejuwe bi o ṣe rilara...",
+    send: "Firanṣẹ",
+    analyzing: "N ṣe atupale...",
+    commonSymptoms: "Awọn Ami Aisan Wọpọ",
+    condition: "Ipo ti o ṣeeṣe",
+    confidence: "Igbẹkẹle",
+    urgency: "Ipele Pajawiri",
+    firstAid: "Iranlọwọ Akọkọ",
+    recommendations: "Awọn Iṣeduro",
+    warningSignsTitle: "Awọn Ami Ikilọ",
+    whenToSeekHelp: "Nigbawo ni O Yẹ Ki O Ri Dokita",
+    disclaimer: "Ikilọ: Oluranlọwọ AI yii n pese alaye ilera gbogbogbo nikan.",
+    offline: "Aisinipo",
+    online: "Lori Ayelujara",
+    emergency: "Pajawiri",
+    urgent: "Kiakia",
+    moderate: "Iwọntunwọnsi",
+    low: "Pataki Kekere",
+    high: "Giga",
+    medium: "Aarin",
+    greeting: "Bawo! Mo jẹ Oluranlọwọ Ilera AI rẹ. Ṣe apejuwe awọn ami aisan rẹ.",
+    noMatch: "Mo ye pe o ko dara. Jọwọ ṣe alaye awọn ami aisan rẹ diẹ sii.",
+    fever: "Iba",
+    headache: "Orififo",
+    cough: "Ikọ",
+    stomachPain: "Irora Inu",
+    snakeBite: "Ejo bu",
+    animalBite: "Eranko bu",
+    difficulty: "Wahala Mimi",
+    back: "Pada"
+  },
+  // Somali
+  so: {
+    title: "Caawiye Caafimaad",
+    subtitle: "Sharax calaamaadahaaga",
+    placeholder: "Sharax sida aad dareemeyso...",
+    send: "Dir",
+    analyzing: "Waa la falanqeynayaa...",
+    commonSymptoms: "Calaamaadaha Caadiga",
+    condition: "Xaaladda Suurtogalka",
+    confidence: "Kalsooni",
+    urgency: "Heerka Degdega",
+    firstAid: "Gargaarka Degdega",
+    recommendations: "Talooyinka",
+    warningSignsTitle: "Calaamaadaha Digniin",
+    whenToSeekHelp: "Goorma La Arko Dhakhtar",
+    disclaimer: "Digniin: Caawiyaha AI-ga ah wuxuu bixiyaa macluumaad caafimaad guud oo keliya.",
+    offline: "Offline",
+    online: "Online",
+    emergency: "Degdeg",
+    urgent: "Degdeg",
+    moderate: "Dhexdhexaad",
+    low: "Mudnaanta Hoose",
+    high: "Sare",
+    medium: "Dhexe",
+    greeting: "Salaan! Waxaan ahay Caawiyahaaga Caafimaadka AI. Sharax calaamaadahaaga.",
+    noMatch: "Waan fahamsanahay inaadan fiicneyn. Fadlan sharax calaamaadahaaga si faahfaahsan.",
+    fever: "Qandho",
+    headache: "Madax Xanuun",
+    cough: "Qufac",
+    stomachPain: "Calool Xanuun",
+    snakeBite: "Mas Qaniinay",
+    animalBite: "Xayawaan Qaniinay",
+    difficulty: "Neefsashada Adkaan",
+    back: "Dib u noqo"
   }
 }
 
 const languages = [
-  { code: "en", name: "English", flag: "🇬🇧" },
-  { code: "es", name: "Español", flag: "🇪🇸" },
-  { code: "fr", name: "Français", flag: "🇫🇷" },
-  { code: "pt", name: "Português", flag: "🇵🇹" },
-  { code: "sw", name: "Kiswahili", flag: "🇹🇿" },
-  { code: "zu", name: "isiZulu", flag: "🇿🇦" },
-  { code: "ha", name: "Hausa", flag: "🇳🇬" },
-  { code: "ar", name: "العربية", flag: "🇸🇦" },
-  { code: "zh", name: "中文", flag: "🇨🇳" },
-  { code: "hi", name: "हिन्दी", flag: "🇮🇳" },
+  // Major World Languages
+  { code: "en", name: "English", nativeName: "English", flag: "🇬🇧", region: "Europe" },
+  { code: "es", name: "Spanish", nativeName: "Español", flag: "🇪🇸", region: "Europe" },
+  { code: "fr", name: "French", nativeName: "Français", flag: "🇫🇷", region: "Europe" },
+  { code: "pt", name: "Portuguese", nativeName: "Português", flag: "🇵🇹", region: "Europe" },
+  { code: "de", name: "German", nativeName: "Deutsch", flag: "🇩🇪", region: "Europe" },
+  { code: "it", name: "Italian", nativeName: "Italiano", flag: "🇮🇹", region: "Europe" },
+  { code: "nl", name: "Dutch", nativeName: "Nederlands", flag: "🇳🇱", region: "Europe" },
+  { code: "ru", name: "Russian", nativeName: "Русский", flag: "🇷🇺", region: "Europe" },
+  { code: "pl", name: "Polish", nativeName: "Polski", flag: "🇵🇱", region: "Europe" },
+  { code: "uk", name: "Ukrainian", nativeName: "Українська", flag: "🇺🇦", region: "Europe" },
+  { code: "el", name: "Greek", nativeName: "Ελληνικά", flag: "🇬🇷", region: "Europe" },
+  { code: "ro", name: "Romanian", nativeName: "Română", flag: "🇷🇴", region: "Europe" },
+  { code: "hu", name: "Hungarian", nativeName: "Magyar", flag: "🇭🇺", region: "Europe" },
+  { code: "cs", name: "Czech", nativeName: "Čeština", flag: "🇨🇿", region: "Europe" },
+  { code: "sv", name: "Swedish", nativeName: "Svenska", flag: "🇸🇪", region: "Europe" },
+  { code: "no", name: "Norwegian", nativeName: "Norsk", flag: "🇳🇴", region: "Europe" },
+  { code: "da", name: "Danish", nativeName: "Dansk", flag: "🇩🇰", region: "Europe" },
+  { code: "fi", name: "Finnish", nativeName: "Suomi", flag: "🇫🇮", region: "Europe" },
+  
+  // Asian Languages
+  { code: "zh", name: "Chinese", nativeName: "中文", flag: "🇨🇳", region: "Asia" },
+  { code: "hi", name: "Hindi", nativeName: "हिन्दी", flag: "🇮🇳", region: "Asia" },
+  { code: "bn", name: "Bengali", nativeName: "বাংলা", flag: "🇧🇩", region: "Asia" },
+  { code: "ja", name: "Japanese", nativeName: "日本語", flag: "🇯🇵", region: "Asia" },
+  { code: "ko", name: "Korean", nativeName: "한국어", flag: "🇰🇷", region: "Asia" },
+  { code: "vi", name: "Vietnamese", nativeName: "Tiếng Việt", flag: "🇻🇳", region: "Asia" },
+  { code: "th", name: "Thai", nativeName: "ไทย", flag: "🇹🇭", region: "Asia" },
+  { code: "id", name: "Indonesian", nativeName: "Bahasa Indonesia", flag: "🇮🇩", region: "Asia" },
+  { code: "ms", name: "Malay", nativeName: "Bahasa Melayu", flag: "🇲🇾", region: "Asia" },
+  { code: "tl", name: "Filipino", nativeName: "Tagalog", flag: "🇵🇭", region: "Asia" },
+  { code: "ta", name: "Tamil", nativeName: "தமிழ்", flag: "🇮🇳", region: "Asia" },
+  { code: "te", name: "Telugu", nativeName: "తెలుగు", flag: "🇮🇳", region: "Asia" },
+  { code: "mr", name: "Marathi", nativeName: "मराठी", flag: "🇮🇳", region: "Asia" },
+  { code: "gu", name: "Gujarati", nativeName: "ગુજરાતી", flag: "🇮🇳", region: "Asia" },
+  { code: "pa", name: "Punjabi", nativeName: "ਪੰਜਾਬੀ", flag: "🇮🇳", region: "Asia" },
+  { code: "ur", name: "Urdu", nativeName: "اردو", flag: "🇵🇰", region: "Asia" },
+  { code: "ne", name: "Nepali", nativeName: "नेपाली", flag: "🇳🇵", region: "Asia" },
+  { code: "si", name: "Sinhala", nativeName: "සිංහල", flag: "🇱🇰", region: "Asia" },
+  { code: "my", name: "Burmese", nativeName: "မြန်မာဘာသာ", flag: "🇲🇲", region: "Asia" },
+  { code: "km", name: "Khmer", nativeName: "ខ្មែរ", flag: "🇰🇭", region: "Asia" },
+  
+  // Middle Eastern Languages
+  { code: "ar", name: "Arabic", nativeName: "العربية", flag: "🇸🇦", region: "Middle East" },
+  { code: "fa", name: "Persian", nativeName: "فارسی", flag: "🇮🇷", region: "Middle East" },
+  { code: "tr", name: "Turkish", nativeName: "Türkçe", flag: "🇹🇷", region: "Middle East" },
+  { code: "he", name: "Hebrew", nativeName: "עברית", flag: "🇮🇱", region: "Middle East" },
+  { code: "ku", name: "Kurdish", nativeName: "Kurdî", flag: "🇮🇶", region: "Middle East" },
+  { code: "ps", name: "Pashto", nativeName: "پښتو", flag: "🇦🇫", region: "Middle East" },
+  
+  // African Languages
+  { code: "sw", name: "Swahili", nativeName: "Kiswahili", flag: "🇹🇿", region: "Africa" },
+  { code: "zu", name: "Zulu", nativeName: "isiZulu", flag: "🇿🇦", region: "Africa" },
+  { code: "ha", name: "Hausa", nativeName: "Hausa", flag: "🇳🇬", region: "Africa" },
+  { code: "am", name: "Amharic", nativeName: "አማርኛ", flag: "🇪🇹", region: "Africa" },
+  { code: "yo", name: "Yoruba", nativeName: "Yorùbá", flag: "🇳🇬", region: "Africa" },
+  { code: "ig", name: "Igbo", nativeName: "Igbo", flag: "🇳🇬", region: "Africa" },
+  { code: "xh", name: "Xhosa", nativeName: "isiXhosa", flag: "🇿🇦", region: "Africa" },
+  { code: "af", name: "Afrikaans", nativeName: "Afrikaans", flag: "🇿🇦", region: "Africa" },
+  { code: "so", name: "Somali", nativeName: "Soomaali", flag: "🇸🇴", region: "Africa" },
+  { code: "rw", name: "Kinyarwanda", nativeName: "Ikinyarwanda", flag: "🇷🇼", region: "Africa" },
+  { code: "lg", name: "Luganda", nativeName: "Luganda", flag: "🇺🇬", region: "Africa" },
+  { code: "ny", name: "Chichewa", nativeName: "Chicheŵa", flag: "🇲🇼", region: "Africa" },
+  { code: "sn", name: "Shona", nativeName: "ChiShona", flag: "🇿🇼", region: "Africa" },
+  { code: "tn", name: "Tswana", nativeName: "Setswana", flag: "🇧🇼", region: "Africa" },
+  { code: "st", name: "Sesotho", nativeName: "Sesotho", flag: "🇱🇸", region: "Africa" },
+  
+  // Americas Languages
+  { code: "pt-BR", name: "Portuguese (Brazil)", nativeName: "Português (Brasil)", flag: "🇧🇷", region: "Americas" },
+  { code: "es-MX", name: "Spanish (Mexico)", nativeName: "Español (México)", flag: "🇲🇽", region: "Americas" },
+  { code: "ht", name: "Haitian Creole", nativeName: "Kreyòl Ayisyen", flag: "🇭🇹", region: "Americas" },
+  { code: "qu", name: "Quechua", nativeName: "Runasimi", flag: "🇵🇪", region: "Americas" },
+  { code: "gn", name: "Guarani", nativeName: "Avañe'ẽ", flag: "🇵🇾", region: "Americas" },
 ]
 
 // Cache name for offline functionality
 const CACHE_NAME = "health-assistant-v1"
+
+// Language Selector Component with Search
+function LanguageSelector({ 
+  language, 
+  setLanguage 
+}: { 
+  language: string
+  setLanguage: (lang: string) => void 
+}) {
+  const [open, setOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const inputRef = useRef<HTMLInputElement>(null)
+  
+  const currentLanguage = languages.find(l => l.code === language) || languages[0]
+  
+  // Filter languages based on search query
+  const filteredLanguages = languages.filter(lang => {
+    const query = searchQuery.toLowerCase()
+    return (
+      lang.name.toLowerCase().includes(query) ||
+      lang.nativeName.toLowerCase().includes(query) ||
+      lang.region.toLowerCase().includes(query) ||
+      lang.code.toLowerCase().includes(query)
+    )
+  })
+  
+  // Group languages by region
+  const groupedLanguages = filteredLanguages.reduce((acc, lang) => {
+    if (!acc[lang.region]) {
+      acc[lang.region] = []
+    }
+    acc[lang.region].push(lang)
+    return acc
+  }, {} as Record<string, typeof languages>)
+  
+  // Focus input when popover opens
+  useEffect(() => {
+    if (open && inputRef.current) {
+      setTimeout(() => inputRef.current?.focus(), 100)
+    }
+  }, [open])
+  
+  const handleSelect = (code: string) => {
+    setLanguage(code)
+    setOpen(false)
+    setSearchQuery("")
+  }
+  
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8 px-2 bg-primary-foreground/20 border border-primary-foreground/30 text-primary-foreground text-xs hover:bg-primary-foreground/30"
+        >
+          <Globe className="h-3 w-3 mr-1.5" />
+          <span className="mr-1">{currentLanguage.flag}</span>
+          <span className="hidden sm:inline max-w-[80px] truncate">{currentLanguage.nativeName}</span>
+          <ChevronDown className="h-3 w-3 ml-1 opacity-70" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent 
+        className="w-72 p-0" 
+        align="end"
+        sideOffset={8}
+      >
+        {/* Search Header */}
+        <div className="p-3 border-b">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              ref={inputRef}
+              placeholder="Search languages..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-8 pr-8 h-9 text-sm"
+            />
+            {searchQuery && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="absolute right-1 top-1/2 -translate-y-1/2 h-6 w-6 p-0"
+                onClick={() => setSearchQuery("")}
+              >
+                <X className="h-3 w-3" />
+              </Button>
+            )}
+          </div>
+          <p className="text-xs text-muted-foreground mt-2">
+            {filteredLanguages.length} language{filteredLanguages.length !== 1 ? 's' : ''} available
+          </p>
+        </div>
+        
+        {/* Languages List */}
+        <ScrollArea className="h-[300px]">
+          <div className="p-2">
+            {Object.entries(groupedLanguages).map(([region, langs]) => (
+              <div key={region} className="mb-3">
+                <p className="text-xs font-medium text-muted-foreground px-2 py-1 sticky top-0 bg-popover">
+                  {region}
+                </p>
+                <div className="space-y-0.5">
+                  {langs.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => handleSelect(lang.code)}
+                      className={`w-full flex items-center gap-2 px-2 py-2 rounded-md text-sm transition-colors hover:bg-accent ${
+                        language === lang.code ? 'bg-accent' : ''
+                      }`}
+                    >
+                      <span className="text-base">{lang.flag}</span>
+                      <div className="flex-1 text-left">
+                        <p className="font-medium">{lang.nativeName}</p>
+                        <p className="text-xs text-muted-foreground">{lang.name}</p>
+                      </div>
+                      {language === lang.code && (
+                        <Check className="h-4 w-4 text-primary" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+            
+            {filteredLanguages.length === 0 && (
+              <div className="text-center py-8 text-muted-foreground">
+                <Globe className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                <p className="text-sm">No languages found</p>
+                <p className="text-xs mt-1">Try a different search term</p>
+              </div>
+            )}
+          </div>
+        </ScrollArea>
+      </PopoverContent>
+    </Popover>
+  )
+}
 
 export function PatientAIAssistant({ setScreen }: PatientAIAssistantProps) {
   const [messages, setMessages] = useState<Message[]>([])
@@ -1441,23 +2135,11 @@ export function PatientAIAssistant({ setScreen }: PatientAIAssistantProps) {
                 )}
               </Badge>
               
-              {/* Language selector */}
-              <Select value={language} onValueChange={setLanguage}>
-                <SelectTrigger className="w-[130px] h-8 bg-primary-foreground/20 border-primary-foreground/30 text-primary-foreground text-xs">
-                  <Globe className="h-3 w-3 mr-1" />
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {languages.map((lang) => (
-                    <SelectItem key={lang.code} value={lang.code}>
-                      <span className="flex items-center gap-2">
-                        <span>{lang.flag}</span>
-                        <span>{lang.name}</span>
-                      </span>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              {/* Language selector with search */}
+              <LanguageSelector 
+                language={language} 
+                setLanguage={setLanguage} 
+              />
             </div>
           </div>
           

@@ -6,14 +6,16 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Heart, ArrowLeft, Eye, EyeOff, Stethoscope, User } from "lucide-react"
-import type { Role, Screen } from "@/app/page"
+import { Heart, ArrowLeft, Eye, EyeOff, Stethoscope, User, UserCog } from "lucide-react"
+import type { Role, Screen, RegisteredPatient } from "@/app/page"
 
 interface LoginScreenProps {
   role: Role
   username: string
   setUsername: (username: string) => void
   setScreen: (screen: Screen) => void
+  registeredPatients: RegisteredPatient[]
+  showNotification: (message: string) => void
 }
 
 export function LoginScreen({
@@ -21,19 +23,59 @@ export function LoginScreen({
   username,
   setUsername,
   setScreen,
+  registeredPatients,
+  showNotification,
 }: LoginScreenProps) {
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
   const isDoctor = role === "doctor"
+  const isAdmin = role === "admin"
+  const isPatient = role === "user"
+
+  const handleLogin = () => {
+    if (!username.trim() || !password.trim()) {
+      showNotification("Please enter username and password")
+      return
+    }
+
+    if (isAdmin) {
+      // Admin login - use fixed credentials for demo
+      if (username === "admin" && password === "admin123") {
+        setScreen("admin-dashboard")
+      } else {
+        showNotification("Invalid admin credentials")
+      }
+      return
+    }
+
+    if (isDoctor) {
+      // Doctor login - for demo, accept any credentials
+      setScreen("dashboard")
+      return
+    }
+
+    if (isPatient) {
+      // Patient login - must have registered credentials from admin
+      const patient = registeredPatients.find(
+        (p) => p.username === username && p.password === password
+      )
+      if (patient) {
+        setScreen("dashboard")
+      } else {
+        showNotification("Invalid credentials. Please contact admin to register.")
+      }
+      return
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Left Side - Image */}
       <div className="relative h-48 md:h-auto md:w-1/2">
         <Image
-          src={isDoctor ? "/images/hero-doctor.jpg" : "/images/patient-care.jpg"}
-          alt={isDoctor ? "Doctor portal" : "Patient portal"}
+          src={isAdmin ? "/images/hero-doctor.jpg" : isDoctor ? "/images/hero-doctor.jpg" : "/images/patient-care.jpg"}
+          alt={isAdmin ? "Admin portal" : isDoctor ? "Doctor portal" : "Patient portal"}
           fill
           className="object-cover brightness-105 contrast-105"
         />
@@ -44,7 +86,9 @@ export function LoginScreen({
             SmartHealth
           </h1>
           <p className="text-white/90 text-sm md:text-base max-w-xs drop-shadow-md">
-            {isDoctor
+            {isAdmin
+              ? "System administration and patient registration"
+              : isDoctor
               ? "Empower your practice with intelligent healthcare management"
               : "Your health journey starts here"}
           </p>
@@ -66,18 +110,24 @@ export function LoginScreen({
 
           <Card className="border-0 shadow-xl bg-card">
             <CardHeader className="text-center pb-2">
-              <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
-                {isDoctor ? (
+              <div className={`mx-auto mb-4 h-16 w-16 rounded-full flex items-center justify-center ${
+                isAdmin ? "bg-amber-500/10" : "bg-primary/10"
+              }`}>
+                {isAdmin ? (
+                  <UserCog className="h-8 w-8 text-amber-600" />
+                ) : isDoctor ? (
                   <Stethoscope className="h-8 w-8 text-primary" />
                 ) : (
                   <User className="h-8 w-8 text-primary" />
                 )}
               </div>
               <CardTitle className="text-2xl text-card-foreground">
-                {isDoctor ? "Doctor Portal" : "Patient Portal"}
+                {isAdmin ? "Admin Portal" : isDoctor ? "Doctor Portal" : "Patient Portal"}
               </CardTitle>
               <p className="text-muted-foreground text-sm mt-1">
-                Sign in to access your account
+                {isAdmin 
+                  ? "Sign in to manage patient registration" 
+                  : "Sign in to access your account"}
               </p>
             </CardHeader>
             <CardContent className="space-y-4 pt-4">
@@ -85,7 +135,7 @@ export function LoginScreen({
                 <Label htmlFor="username" className="text-card-foreground">Username</Label>
                 <Input
                   id="username"
-                  placeholder={isDoctor ? "Enter your staff ID" : "Enter your username"}
+                  placeholder={isAdmin ? "Enter admin username" : isDoctor ? "Enter your staff ID" : "Enter your patient ID"}
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   className="h-12"
@@ -118,27 +168,34 @@ export function LoginScreen({
                 </div>
               </div>
 
-              <button
-                type="button"
-                className="text-sm text-primary hover:underline"
-                onClick={() => setScreen("forgot")}
-              >
-                Forgot password?
-              </button>
+              {!isAdmin && (
+                <button
+                  type="button"
+                  className="text-sm text-primary hover:underline"
+                  onClick={() => setScreen("forgot")}
+                >
+                  Forgot password?
+                </button>
+              )}
 
               <Button
-                className="w-full h-12 text-base font-medium"
-                onClick={() => setScreen("dashboard")}
+                className={`w-full h-12 text-base font-medium ${isAdmin ? "bg-amber-600 hover:bg-amber-700" : ""}`}
+                onClick={handleLogin}
               >
                 Sign In
               </Button>
 
-              {!isDoctor && (
-                <p className="text-center text-sm text-muted-foreground">
-                  {"Don't have an account? "}
-                  <button type="button" className="text-primary hover:underline font-medium">
-                    Register here
-                  </button>
+              {isPatient && (
+                <div className="p-3 rounded-lg bg-muted/50 border border-muted">
+                  <p className="text-center text-sm text-muted-foreground">
+                    {"Don't have an account? Contact the hospital admin to register and receive your login credentials."}
+                  </p>
+                </div>
+              )}
+
+              {isAdmin && (
+                <p className="text-center text-xs text-muted-foreground">
+                  Default: admin / admin123
                 </p>
               )}
             </CardContent>

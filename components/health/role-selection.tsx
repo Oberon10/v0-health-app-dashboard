@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Stethoscope, User, Heart, Shield, Clock } from "lucide-react"
+import { Stethoscope, User, Heart, Shield, Clock, UserCog } from "lucide-react"
 import type { Role, Screen } from "@/app/page"
 
 interface RoleSelectionProps {
@@ -66,6 +66,28 @@ export function RoleSelection({ setRole, setScreen }: RoleSelectionProps) {
             Select Your Role
           </h2>
           <div className="grid gap-4">
+            {/* Admin Card */}
+            <Card
+              className="cursor-pointer border-2 border-transparent hover:border-amber-500 transition-all duration-300 shadow-md hover:shadow-xl bg-card group"
+              onClick={() => {
+                setRole("admin")
+                setScreen("login")
+              }}
+            >
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="h-16 w-16 rounded-2xl bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
+                  <UserCog className="h-8 w-8 text-amber-600" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-card-foreground">Admin</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Register patients & manage system access
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Healthcare Provider Card */}
             <Card
               className="cursor-pointer border-2 border-transparent hover:border-primary transition-all duration-300 shadow-md hover:shadow-xl bg-card group"
               onClick={() => {
@@ -86,6 +108,7 @@ export function RoleSelection({ setRole, setScreen }: RoleSelectionProps) {
               </CardContent>
             </Card>
 
+            {/* Patient Card */}
             <Card
               className="cursor-pointer border-2 border-transparent hover:border-accent transition-all duration-300 shadow-md hover:shadow-xl bg-card group"
               onClick={() => {

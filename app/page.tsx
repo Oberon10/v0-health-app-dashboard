@@ -13,6 +13,8 @@ import { PatientChat } from "@/components/health/patient-chat"
 import { AIAssistant } from "@/components/health/ai-assistant"
 import { Notification } from "@/components/health/notification"
 import { Footer } from "@/components/health/footer"
+import { AdminDashboard } from "@/components/health/admin-dashboard"
+import { RegisterPatient } from "@/components/health/register-patient"
 
 export type Screen =
   | "role"
@@ -27,8 +29,26 @@ export type Screen =
   | "records"
   | "chat"
   | "ai"
+  | "admin-dashboard"
+  | "register-patient"
 
-export type Role = "doctor" | "user" | ""
+export type Role = "doctor" | "user" | "admin" | ""
+
+export interface RegisteredPatient {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  bloodGroup: string
+  genotype: string
+  department: string
+  ward: string
+  complaint: string
+  username: string
+  password: string
+  createdAt: string
+}
 
 export interface Appointment {
   id: number
@@ -57,12 +77,15 @@ export default function SmartHealthApp() {
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [patients, setPatients] = useState<Patient[]>([])
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null)
+  const [registeredPatients, setRegisteredPatients] = useState<RegisteredPatient[]>([])
 
   useEffect(() => {
     const saved = localStorage.getItem("smarthealth_appointments")
     if (saved) setAppointments(JSON.parse(saved))
     const savedPatients = localStorage.getItem("smarthealth_patients")
     if (savedPatients) setPatients(JSON.parse(savedPatients))
+    const savedRegisteredPatients = localStorage.getItem("smarthealth_registered_patients")
+    if (savedRegisteredPatients) setRegisteredPatients(JSON.parse(savedRegisteredPatients))
   }, [])
 
   useEffect(() => {
@@ -72,6 +95,10 @@ export default function SmartHealthApp() {
   useEffect(() => {
     localStorage.setItem("smarthealth_patients", JSON.stringify(patients))
   }, [patients])
+
+  useEffect(() => {
+    localStorage.setItem("smarthealth_registered_patients", JSON.stringify(registeredPatients))
+  }, [registeredPatients])
 
   const showNotification = (message: string) => {
     setNotification(message)
@@ -97,6 +124,8 @@ export default function SmartHealthApp() {
           username={username}
           setUsername={setUsername}
           setScreen={setScreen}
+          registeredPatients={registeredPatients}
+          showNotification={showNotification}
         />
       )}
 
@@ -163,6 +192,23 @@ export default function SmartHealthApp() {
       )}
 
       {screen === "ai" && <AIAssistant setScreen={setScreen} />}
+
+      {screen === "admin-dashboard" && (
+        <AdminDashboard
+          username={username}
+          registeredPatients={registeredPatients}
+          setScreen={setScreen}
+        />
+      )}
+
+      {screen === "register-patient" && (
+        <RegisterPatient
+          registeredPatients={registeredPatients}
+          setRegisteredPatients={setRegisteredPatients}
+          setScreen={setScreen}
+          showNotification={showNotification}
+        />
+      )}
 
       <Footer />
     </div>

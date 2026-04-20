@@ -15,6 +15,8 @@ import {
   Phone,
   Mail,
   Droplet,
+  Brain,
+  Sparkles,
 } from "lucide-react"
 import type { Screen, Appointment } from "@/app/page"
 
@@ -77,9 +79,20 @@ export function PatientDashboard({
       <div className="container mx-auto px-4 -mt-8 relative z-10 pb-8 pt-6">
         {/* Quick Actions */}
         <Card className="border-0 shadow-lg mb-6 bg-card mt-4">
-          <CardContent className="p-4">
+          <CardContent className="p-4 space-y-3">
+            {/* AI Health Assistant - Primary Action */}
             <Button
-              className="w-full h-14 text-lg font-medium gap-3"
+              className="w-full h-14 text-lg font-medium gap-3 bg-gradient-to-r from-accent to-primary hover:from-accent/90 hover:to-primary/90"
+              onClick={() => setScreen("ai")}
+            >
+              <Brain className="h-5 w-5" />
+              AI Health Assistant
+              <Sparkles className="h-4 w-4 ml-auto" />
+            </Button>
+            
+            <Button
+              variant="outline"
+              className="w-full h-12 font-medium gap-3"
               onClick={() => setScreen("book")}
             >
               <Calendar className="h-5 w-5" />

@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Stethoscope, User, Heart, Shield, Clock } from "lucide-react"
+import { Stethoscope, User, Heart, Shield, Clock, Settings } from "lucide-react"
 import type { Role, Screen } from "@/app/page"
 
 interface RoleSelectionProps {
@@ -101,6 +101,26 @@ export function RoleSelection({ setRole, setScreen }: RoleSelectionProps) {
                   <h3 className="text-lg font-semibold text-card-foreground">Patient</h3>
                   <p className="text-sm text-muted-foreground">
                     Book appointments & access your health records
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card
+              className="cursor-pointer border-2 border-transparent hover:border-muted-foreground transition-all duration-300 shadow-md hover:shadow-xl bg-card group"
+              onClick={() => {
+                setRole("admin")
+                setScreen("login")
+              }}
+            >
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="h-16 w-16 rounded-2xl bg-muted flex items-center justify-center group-hover:bg-muted/80 transition-colors">
+                  <Settings className="h-8 w-8 text-muted-foreground" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-card-foreground">Administrator</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Manage patients, doctors & system settings
                   </p>
                 </div>
               </CardContent>

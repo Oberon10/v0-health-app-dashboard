@@ -6,14 +6,17 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Heart, ArrowLeft, Eye, EyeOff, Stethoscope, User } from "lucide-react"
-import type { Role, Screen } from "@/app/page"
+import { Heart, ArrowLeft, Eye, EyeOff, Stethoscope, User, Settings } from "lucide-react"
+import type { Role, Screen, RegisteredPatient, RegisteredDoctor } from "@/app/page"
 
 interface LoginScreenProps {
   role: Role
   username: string
   setUsername: (username: string) => void
   setScreen: (screen: Screen) => void
+  registeredPatients: RegisteredPatient[]
+  registeredDoctors: RegisteredDoctor[]
+  showNotification: (message: string) => void
 }
 
 export function LoginScreen({
@@ -21,11 +24,57 @@ export function LoginScreen({
   username,
   setUsername,
   setScreen,
+  registeredPatients,
+  registeredDoctors,
+  showNotification,
 }: LoginScreenProps) {
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
   const isDoctor = role === "doctor"
+  const isAdmin = role === "admin"
+
+  const handleLogin = () => {
+    if (!username.trim() || !password.trim()) {
+      showNotification("Please enter username and password")
+      return
+    }
+
+    if (isAdmin) {
+      // Admin login - hardcoded credentials
+      if (username === "admin" && password === "admin123") {
+        setScreen("dashboard")
+      } else {
+        showNotification("Invalid admin credentials")
+      }
+      return
+    }
+
+    if (isDoctor) {
+      // Doctor login - check registered doctors
+      const doctor = registeredDoctors.find(
+        (d) => d.username === username && d.password === password
+      )
+      if (doctor) {
+        setUsername(doctor.firstName + " " + doctor.lastName)
+        setScreen("dashboard")
+      } else {
+        showNotification("Invalid doctor credentials")
+      }
+      return
+    }
+
+    // Patient login - check registered patients
+    const patient = registeredPatients.find(
+      (p) => p.username === username && p.password === password
+    )
+    if (patient) {
+      setUsername(patient.firstName + " " + patient.lastName)
+      setScreen("dashboard")
+    } else {
+      showNotification("Invalid patient credentials")
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
@@ -44,9 +93,11 @@ export function LoginScreen({
             SmartHealth
           </h1>
           <p className="text-white/90 text-sm md:text-base max-w-xs drop-shadow-md">
-            {isDoctor
-              ? "Empower your practice with intelligent healthcare management"
-              : "Your health journey starts here"}
+            {isAdmin
+              ? "Manage your healthcare system efficiently"
+              : isDoctor
+                ? "Empower your practice with intelligent healthcare management"
+                : "Your health journey starts here"}
           </p>
         </div>
       </div>
@@ -67,14 +118,16 @@ export function LoginScreen({
           <Card className="border-0 shadow-xl bg-card">
             <CardHeader className="text-center pb-2">
               <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
-                {isDoctor ? (
+                {isAdmin ? (
+                  <Settings className="h-8 w-8 text-primary" />
+                ) : isDoctor ? (
                   <Stethoscope className="h-8 w-8 text-primary" />
                 ) : (
                   <User className="h-8 w-8 text-primary" />
                 )}
               </div>
               <CardTitle className="text-2xl text-card-foreground">
-                {isDoctor ? "Doctor Portal" : "Patient Portal"}
+                {isAdmin ? "Admin Portal" : isDoctor ? "Doctor Portal" : "Patient Portal"}
               </CardTitle>
               <p className="text-muted-foreground text-sm mt-1">
                 Sign in to access your account
@@ -85,7 +138,7 @@ export function LoginScreen({
                 <Label htmlFor="username" className="text-card-foreground">Username</Label>
                 <Input
                   id="username"
-                  placeholder={isDoctor ? "Enter your staff ID" : "Enter your username"}
+                  placeholder={isAdmin ? "Enter admin username" : isDoctor ? "Enter your staff ID" : "Enter your username"}
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   className="h-12"
@@ -128,17 +181,20 @@ export function LoginScreen({
 
               <Button
                 className="w-full h-12 text-base font-medium"
-                onClick={() => setScreen("dashboard")}
+                onClick={handleLogin}
               >
                 Sign In
               </Button>
 
-              {!isDoctor && (
+              {!isDoctor && !isAdmin && (
                 <p className="text-center text-sm text-muted-foreground">
-                  {"Don't have an account? "}
-                  <button type="button" className="text-primary hover:underline font-medium">
-                    Register here
-                  </button>
+                  {"Don't have an account? Contact your administrator."}
+                </p>
+              )}
+
+              {isAdmin && (
+                <p className="text-center text-xs text-muted-foreground">
+                  Default credentials: admin / admin123
                 </p>
               )}
             </CardContent>

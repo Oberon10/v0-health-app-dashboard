@@ -10,7 +10,7 @@ import { BookAppointment } from "@/components/health/book-appointment"
 import { AppointmentList } from "@/components/health/appointment-list"
 import { MedicalRecords } from "@/components/health/medical-records"
 import { PatientChat } from "@/components/health/patient-chat"
-import { AIAssistant } from "@/components/health/ai-assistant"
+import { PatientAIAssistant } from "@/components/health/patient-ai-assistant"
 import { Notification } from "@/components/health/notification"
 import { Footer } from "@/components/health/footer"
 
@@ -162,7 +162,7 @@ export default function SmartHealthApp() {
         />
       )}
 
-      {screen === "ai" && <AIAssistant setScreen={setScreen} />}
+      {screen === "ai" && <PatientAIAssistant setScreen={setScreen} />}
 
       <Footer />
     </div>

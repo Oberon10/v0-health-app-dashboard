@@ -15,6 +15,7 @@ import { Notification } from "@/components/health/notification"
 import { Footer } from "@/components/health/footer"
 import { AdminDashboard } from "@/components/health/admin-dashboard"
 import { RegisterPatient } from "@/components/health/register-patient"
+import { RegisterDoctor } from "@/components/health/register-doctor"
 
 export type Screen =
   | "role"
@@ -31,6 +32,7 @@ export type Screen =
   | "ai"
   | "admin-dashboard"
   | "register-patient"
+  | "register-doctor"
 
 export type Role = "doctor" | "user" | "admin" | ""
 
@@ -45,6 +47,19 @@ export interface RegisteredPatient {
   department: string
   ward: string
   complaint: string
+  username: string
+  password: string
+  createdAt: string
+}
+
+export interface RegisteredDoctor {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  age: string
+  bloodGroup: string
+  genotype: string
   username: string
   password: string
   createdAt: string
@@ -78,6 +93,7 @@ export default function SmartHealthApp() {
   const [patients, setPatients] = useState<Patient[]>([])
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null)
   const [registeredPatients, setRegisteredPatients] = useState<RegisteredPatient[]>([])
+  const [registeredDoctors, setRegisteredDoctors] = useState<RegisteredDoctor[]>([])
 
   useEffect(() => {
     const saved = localStorage.getItem("smarthealth_appointments")
@@ -86,6 +102,8 @@ export default function SmartHealthApp() {
     if (savedPatients) setPatients(JSON.parse(savedPatients))
     const savedRegisteredPatients = localStorage.getItem("smarthealth_registered_patients")
     if (savedRegisteredPatients) setRegisteredPatients(JSON.parse(savedRegisteredPatients))
+    const savedRegisteredDoctors = localStorage.getItem("smarthealth_registered_doctors")
+    if (savedRegisteredDoctors) setRegisteredDoctors(JSON.parse(savedRegisteredDoctors))
   }, [])
 
   useEffect(() => {
@@ -99,6 +117,10 @@ export default function SmartHealthApp() {
   useEffect(() => {
     localStorage.setItem("smarthealth_registered_patients", JSON.stringify(registeredPatients))
   }, [registeredPatients])
+
+  useEffect(() => {
+    localStorage.setItem("smarthealth_registered_doctors", JSON.stringify(registeredDoctors))
+  }, [registeredDoctors])
 
   const showNotification = (message: string) => {
     setNotification(message)
@@ -125,6 +147,7 @@ export default function SmartHealthApp() {
           setUsername={setUsername}
           setScreen={setScreen}
           registeredPatients={registeredPatients}
+          registeredDoctors={registeredDoctors}
           showNotification={showNotification}
         />
       )}
@@ -197,6 +220,7 @@ export default function SmartHealthApp() {
         <AdminDashboard
           username={username}
           registeredPatients={registeredPatients}
+          registeredDoctors={registeredDoctors}
           setScreen={setScreen}
         />
       )}
@@ -205,6 +229,15 @@ export default function SmartHealthApp() {
         <RegisterPatient
           registeredPatients={registeredPatients}
           setRegisteredPatients={setRegisteredPatients}
+          setScreen={setScreen}
+          showNotification={showNotification}
+        />
+      )}
+
+      {screen === "register-doctor" && (
+        <RegisterDoctor
+          registeredDoctors={registeredDoctors}
+          setRegisteredDoctors={setRegisteredDoctors}
           setScreen={setScreen}
           showNotification={showNotification}
         />

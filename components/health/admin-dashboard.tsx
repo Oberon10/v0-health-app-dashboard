@@ -13,10 +13,12 @@ import {
   ChevronRight,
   Search,
   Heart,
+  Stethoscope,
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useState } from "react"
-import type { Screen, RegisteredPatient } from "@/app/page"
+import type { Screen, RegisteredPatient, RegisteredDoctor } from "@/app/page"
 
 interface AdminDashboardProps {
   username: string

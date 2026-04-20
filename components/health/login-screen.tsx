@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Heart, ArrowLeft, Eye, EyeOff, Stethoscope, User, UserCog } from "lucide-react"
-import type { Role, Screen, RegisteredPatient } from "@/app/page"
+import type { Role, Screen, RegisteredPatient, RegisteredDoctor } from "@/app/page"
 
 interface LoginScreenProps {
   role: Role
@@ -15,6 +15,7 @@ interface LoginScreenProps {
   setUsername: (username: string) => void
   setScreen: (screen: Screen) => void
   registeredPatients: RegisteredPatient[]
+  registeredDoctors: RegisteredDoctor[]
   showNotification: (message: string) => void
 }
 
@@ -24,6 +25,7 @@ export function LoginScreen({
   setUsername,
   setScreen,
   registeredPatients,
+  registeredDoctors,
   showNotification,
 }: LoginScreenProps) {
   const [password, setPassword] = useState("")
@@ -50,8 +52,15 @@ export function LoginScreen({
     }
 
     if (isDoctor) {
-      // Doctor login - for demo, accept any credentials
-      setScreen("dashboard")
+      // Doctor login - must have registered credentials from admin
+      const doctor = registeredDoctors.find(
+        (d) => d.username === username && d.password === password
+      )
+      if (doctor) {
+        setScreen("dashboard")
+      } else {
+        showNotification("Invalid credentials. Please contact admin to register.")
+      }
       return
     }
 
@@ -185,7 +194,7 @@ export function LoginScreen({
                 Sign In
               </Button>
 
-              {isPatient && (
+              {(isPatient || isDoctor) && (
                 <div className="p-3 rounded-lg bg-muted/50 border border-muted">
                   <p className="text-center text-sm text-muted-foreground">
                     {"Don't have an account? Contact the hospital admin to register and receive your login credentials."}

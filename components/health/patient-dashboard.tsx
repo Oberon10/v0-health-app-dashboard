@@ -15,6 +15,8 @@ import {
   Phone,
   Mail,
   Droplet,
+  Brain,
+  Sparkles,
 } from "lucide-react"
 import type { Screen, Appointment } from "@/app/page"
 
@@ -77,7 +79,7 @@ export function PatientDashboard({
       <div className="container mx-auto px-4 -mt-8 relative z-10 pb-8 pt-6">
         {/* Quick Actions */}
         <Card className="border-0 shadow-lg mb-6 bg-card mt-4">
-          <CardContent className="p-4">
+          <CardContent className="p-4 space-y-3">
             <Button
               className="w-full h-14 text-lg font-medium gap-3"
               onClick={() => setScreen("book")}
@@ -85,6 +87,30 @@ export function PatientDashboard({
               <Calendar className="h-5 w-5" />
               Book New Appointment
             </Button>
+          </CardContent>
+        </Card>
+
+        {/* AI Health Assistant Card */}
+        <Card 
+          className="border-0 shadow-lg mb-6 bg-gradient-to-br from-primary/10 via-card to-accent/10 cursor-pointer hover:shadow-xl transition-shadow"
+          onClick={() => setScreen("ai")}
+        >
+          <CardContent className="p-6">
+            <div className="flex items-center gap-4">
+              <div className="h-14 w-14 rounded-2xl bg-primary/20 flex items-center justify-center">
+                <Brain className="h-7 w-7 text-primary" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="font-semibold text-card-foreground">AI Health Assistant</h3>
+                  <Sparkles className="h-4 w-4 text-primary" />
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Describe your symptoms and get instant health guidance in your language
+                </p>
+              </div>
+              <ChevronRight className="h-5 w-5 text-muted-foreground" />
+            </div>
           </CardContent>
         </Card>
 
